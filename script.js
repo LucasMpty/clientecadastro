@@ -35,9 +35,10 @@ form.addEventListener("submit", async function(evento) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(cliente),
     });
-
+//se a resposta não for ok, lança um erro
     if (!resposta.ok) throw new Error("Erro ao cadastrar cliente");
 
+// se tudo der certo, reseta o formulário e recarrega a lista de clientes
     form.reset();
     carregarClientes();
   } catch (erro) {
@@ -46,6 +47,10 @@ form.addEventListener("submit", async function(evento) {
 });
 
 // excluir cliente
+// recebe o id do cliente e o botão clicado
+// usa o método DELETE para remover o cliente da API
+// se der certo, remove o <li> da tela
+// se der erro, mostra no console
 async function excluirCliente(id, botao) {
   try {
     const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
@@ -60,12 +65,13 @@ async function excluirCliente(id, botao) {
 
 // buscar e mostrar clientes
 async function carregarClientes() {
-  lista.innerHTML = "<li>Carregando...</li>";
+  lista.innerHTML = "<li>Carregando... </li>"; // mostra mensagem de carregando enquanto busca os dados
 
   try {
     const resposta = await fetch(API_URL);
     if (!resposta.ok) throw new Error("Erro ao buscar clientes");
 
+    
     const clientes = await resposta.json();
     lista.innerHTML = "";
 
