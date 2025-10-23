@@ -1,25 +1,34 @@
+// endereço da API do CrudCrud
 const API_URL = 'https://crudcrud.com/api/63aa9cf8407c476d80b4662d89feb59a/clientes';
 
+
+// variavel para o formulário e a lista ( pegando infos do HTML ) ul sendo usada como lista
 const form = document.getElementById("formClientes");
 const lista = document.getElementById("listaClientes");
 
-// carregar clientes quando abrir a página
+
+// carregar clientes quando abrir a página com o DOMContentLoaded faz com que a pagina seja totalmente carregada antes de executar a função, no caso carregarClientes
 window.addEventListener("DOMContentLoaded", carregarClientes);
 
-// cadastrar cliente
+// cadastrar cliente usando um evento de submit no formulário
 form.addEventListener("submit", async function(evento) {
-  evento.preventDefault();
+  evento.preventDefault(); // evitar o comportamento padrão do formulário de recarregar a página
 
+  //pegar valores dos campos do formulário usando trim para remover espaços em branco
   const nome = document.getElementById("nome").value.trim();
   const email = document.getElementById("email").value.trim();
-
+  // validação simples para garantir que os campos não estejam vazios
   if (!nome || !email) {
     alert("Preencha todos os campos!");
     return;
   }
 
+  // criando uma variável cliente com os dados do formulário
   const cliente = { nome, email };
 
+  // try tenta executar o código, se der erro cai no catch
+  // aqui cria uma varavel resposta que espera a resposta da API ao fazer o fetch com método POST (enviando dados)
+  // o body envia os dados do cliente em formato JSON
   try {
     const resposta = await fetch(API_URL, {
       method: "POST",
